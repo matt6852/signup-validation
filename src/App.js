@@ -1,19 +1,33 @@
-import { useState } from "react";
+
 import "./App.css";
 import Form from "./Form";
 import FormSuccess from "./FormSuccess";
 
-function App() {
-  const [data, setData] = useState({});
+
+
+
+
+import { connect } from "react-redux";
+
+
+
+
+
+
+
+function App({formData}) {
   return (
     <>
-      {Object.keys(data).length > 0 ? (
-        <FormSuccess data={data} />
+      {Object.keys(formData).length > 0 ? (
+        <FormSuccess  />
       ) : (
-        <Form setData={setData} />
+        <Form />
       )}
     </>
   );
 }
+const mapStateToProps = (state) => {
+  return { formData: state.formData };
+};
 
-export default App;
+export default connect(mapStateToProps) (App);

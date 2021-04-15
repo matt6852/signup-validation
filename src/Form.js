@@ -3,6 +3,7 @@ import { useForm }from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import "./App.css"
+import {connect} from "react-redux"
 
 const schema = yup.object().shape({
   lastName: yup.string().min(3).required(),
@@ -14,14 +15,12 @@ const schema = yup.object().shape({
   password2: yup.string().oneOf([yup.ref("password"), null]),
 });
 
-const Form = ({setData}) => {
+const Form = ({formData,dispatch}) => {
   const { register, handleSubmit, formState:{errors} } = useForm({
       resolver:yupResolver(schema),
   });
   const submitForm = (data) => {
-    if(data){
-        setData(data)
-    }
+   dispatch({type:"GET_FORM",payload:data})
   };
   return (
     <section className="form-sign">
@@ -149,4 +148,10 @@ const Form = ({setData}) => {
   );
 };
 
-export default Form;
+
+const mapStateToProps =state =>{
+
+  return {formData:state.formData}
+}
+
+export default connect(mapStateToProps) (Form);
